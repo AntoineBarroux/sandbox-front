@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, map, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, combineLatest, map, Observable, Subject, switchMap, tap} from 'rxjs';
 import {EmployeeClient} from '../client/employee.client';
 import {Employee} from '../model/employee.model';
 import {Page} from '../model/page.model';
@@ -11,10 +11,11 @@ export class EmployeeService {
 
   private readonly employees$: Observable<Employee[]>;
   public readonly totalNumberOfElements$: BehaviorSubject<number> = new BehaviorSubject(0);
+  public readonly employeeDeleted$: Subject<void> = new BehaviorSubject(null);
 
   public constructor(paginationService: PaginationService, private readonly employeeClient: EmployeeClient) {
-    this.employees$ = paginationService.getCurrentPagination().pipe(
-      switchMap((pagination: Pagination) => employeeClient.findAll(pagination)),
+    this.employees$ = combineLatest([paginationService.getCurrentPagination(), this.employeeDeleted$]).pipe(
+      switchMap(([pagination, _]: [Pagination, any]) => employeeClient.findAll(pagination)),
       tap((pagedEmployees: Page<Employee>) => this.totalNumberOfElements$.next(pagedEmployees.totalElements)),
       map((pagedEmployees: Page<Employee>) => pagedEmployees.content)
     );
@@ -29,6 +30,8 @@ export class EmployeeService {
   }
 
   public deleteEmployee(employeeId: string): Observable<void> {
-    return this.employeeClient.delete(employeeId);
+    return this.employeeClient.delete(employeeId).pipe(
+      tap(() => this.employeeDeleted$.next())
+    );
   }
 }
