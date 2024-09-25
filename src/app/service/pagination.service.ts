@@ -7,7 +7,7 @@ export class PaginationService {
 
   private readonly currentPagination$: BehaviorSubject<Pagination> = new BehaviorSubject(new Pagination({
     page: 0,
-    pageSize: 10
+    size: 10
   }));
 
   public setCurrentPagination(pagination: Pagination): void {

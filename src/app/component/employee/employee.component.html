@@ -1,17 +1,17 @@
 <div class="avatar">
   <img src="/assets/images/avatar-de-lutilisateur.png" alt="avatar" />
-  <span>John Doe</span>
+  <span>{{ employee?.firstName }} {{ employee?.lastName }}</span>
 </div>
 
 <div class="details">
   <dl>
     <div>
       <dt>Position</dt>
-      <dd>Developer</dd>
+      <dd>{{ employee?.position }}</dd>
     </div>
     <div>
       <dt>Supervisor</dt>
-      <dd>Tristan Denmat</dd>
+      <dd>{{ employee?.supervisor?.firstName }} {{ employee?.supervisor?.lastName }}</dd>
     </div>
   </dl>
 </div>
@@ -20,7 +20,7 @@
   <button>
     <fa-icon [icon]="faEdit"></fa-icon> Edit
   </button>
-  <button class="btn btn-danger">
+  <button (click)="deleteEmployee()">
     <fa-icon [icon]="faTrash"></fa-icon> Delete
   </button>
 </div>

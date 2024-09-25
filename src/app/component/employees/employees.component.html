@@ -3,20 +3,32 @@
   <button><fa-icon [icon]="faPlus"></fa-icon></button>
 </header>
 
-<div class="employees">
-  <app-employee></app-employee>
+@let employees = employees$ | async;
+
+@if(employees?.length) {
+  <div class="employees">
+    @for(employee of employees; track employee.id) {
+      <app-employee [employee]="employee"></app-employee>
+    }
+  </div>
+
+  @let pagination = currentPagination$ | async;
+  @let totalNumberOfElements = totalNumberOfElements$ | async;
 
   <p-paginator
+    (onPageChange)="currentPageChanged($event)"
     [style]="{'background':'var(--grey-100)'}"
     [first]="0"
-    [rows]="10"
-    [totalRecords]="20" />
-</div>
+    [rows]="pagination.size"
+    [totalRecords]="totalNumberOfElements" />
+}
 
-<div class="no-employees">
-  <img src="/assets/images/no-content.png" alt="no content" />
-  <h2>No employees found</h2>
-  <p>There is no employees yet.</p>
-  <button><fa-icon [icon]="faPlus"></fa-icon> Add a new employee</button>
-</div>
+@else {
+  <div class="no-employees">
+    <img src="/assets/images/no-content.png" alt="no content" />
+    <h2>No employees found</h2>
+    <p>There is no employees yet.</p>
+    <button><fa-icon [icon]="faPlus"></fa-icon> Add a new employee</button>
+  </div>
+}
 
