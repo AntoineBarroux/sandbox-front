@@ -29,4 +29,15 @@ export class EmployeeClient {
       })
     );
   }
+
+  public create(employee: Employee): Observable<Employee> {
+    return this.httpClient.post<Employee>('http://localhost:8050/employee', employee).pipe(
+      map((data: any) => new Employee({
+        ...data,
+      })),
+      catchError((_: any) => {
+        return of(new Employee({}));
+      })
+    );
+  }
 }

@@ -59,6 +59,7 @@ export class FormEmployeeComponent {
   public onSubmit(): void {
     if (this.form.valid) {
       this.save.emit(new Employee(this.form.value));
+      this.form.reset();
     }
   }
 

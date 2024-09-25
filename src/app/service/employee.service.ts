@@ -11,10 +11,10 @@ export class EmployeeService {
 
   private readonly employees$: Observable<Employee[]>;
   private readonly totalNumberOfElements$: BehaviorSubject<number> = new BehaviorSubject(0);
-  private readonly employeeDeleted$: Subject<void> = new BehaviorSubject(null);
+  private readonly employeeReload$: Subject<void> = new BehaviorSubject(null);
 
   public constructor(paginationService: PaginationService, private readonly employeeClient: EmployeeClient) {
-    this.employees$ = combineLatest([paginationService.getCurrentPagination(), this.employeeDeleted$]).pipe(
+    this.employees$ = combineLatest([paginationService.getCurrentPagination(), this.employeeReload$]).pipe(
       switchMap(([pagination, _]: [Pagination, any]) => employeeClient.findAll(pagination)),
       tap((pagedEmployees: Page<Employee>) => this.totalNumberOfElements$.next(pagedEmployees.totalElements)),
       map((pagedEmployees: Page<Employee>) => pagedEmployees.content)
@@ -31,7 +31,13 @@ export class EmployeeService {
 
   public deleteEmployee(employeeId: string): Observable<void> {
     return this.employeeClient.delete(employeeId).pipe(
-      tap(() => this.employeeDeleted$.next())
+      tap(() => this.employeeReload$.next())
+    );
+  }
+
+  public createEmployee(employee: Employee): Observable<Employee> {
+    return this.employeeClient.create(employee).pipe(
+      tap(() => this.employeeReload$.next())
     );
   }
 }

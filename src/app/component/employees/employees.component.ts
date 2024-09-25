@@ -41,7 +41,7 @@ export class EmployeesComponent {
   dialogVisible: boolean = false;
 
   public constructor(private readonly router: Router,
-                     employeeService: EmployeeService,
+                     private readonly employeeService: EmployeeService,
                      paginationService: PaginationService,
                      activatedRoute: ActivatedRoute) {
     this.employees$ = employeeService.getEmployees();
@@ -77,5 +77,8 @@ export class EmployeesComponent {
 
   public addEmployee(employee: Employee) {
     console.log('add employee',employee);
+    this.employeeService.createEmployee(employee).subscribe(() => {
+      this.dialogVisible = false;
+    });
   }
 }
