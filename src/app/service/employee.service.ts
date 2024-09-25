@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, combineLatest, map, Observable, Subject, switchMap, tap} from 'rxjs';
 import {EmployeeClient} from '../client/employee.client';
+import {CreateEmployeeRequest} from '../client/request/create-employee.request';
+import {UpdateEmployeeRequest} from '../client/request/update-employee.request';
+import {EmployeeForm} from '../component/form-employee/employee.form';
 import {Employee} from '../model/employee.model';
 import {Page} from '../model/page.model';
 import {Pagination} from '../model/pagination.model';
@@ -39,8 +42,25 @@ export class EmployeeService {
     );
   }
 
-  public createEmployee(employee: Employee): Observable<Employee> {
-    return this.employeeClient.create(employee).pipe(
+  public createEmployee(employee: EmployeeForm): Observable<Employee> {
+    return this.employeeClient.create(new CreateEmployeeRequest({
+      supervisorId: employee.supervisor,
+      firstName: employee.firstName,
+      lastName: employee.lastName,
+      position: employee.position
+    })).pipe(
+      tap(() => this.employeeReload$.next())
+    );
+  }
+
+  public updateEmployee(employee: EmployeeForm): Observable<Employee> {
+    return this.employeeClient.update(new UpdateEmployeeRequest({
+      id: employee.id,
+      supervisorId: employee.supervisor,
+      firstName: employee.firstName,
+      lastName: employee.lastName,
+      position: employee.position
+    })).pipe(
       tap(() => this.employeeReload$.next())
     );
   }

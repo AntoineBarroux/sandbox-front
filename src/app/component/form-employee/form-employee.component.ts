@@ -6,7 +6,9 @@ import {DropdownModule} from 'primeng/dropdown';
 import {InputTextModule} from 'primeng/inputtext';
 import {Observable} from 'rxjs';
 import {Employee} from '../../model/employee.model';
+import {Supervisor} from '../../model/supervisor.model';
 import {SupervisorService} from '../../service/supervisor.service';
+import {EmployeeForm} from './employee.form';
 
 @Component({
   selector: 'app-form-employee',
@@ -29,11 +31,11 @@ export class FormEmployeeComponent {
   public readonly cancel: EventEmitter<void> = new EventEmitter<void>();
 
   @Output()
-  public readonly save: EventEmitter<Employee> = new EventEmitter<Employee>();
+  public readonly save: EventEmitter<EmployeeForm> = new EventEmitter<EmployeeForm>();
 
   public readonly employee = input<Employee>();
 
-  public readonly supervisors$: Observable<Employee[]>;
+  public readonly supervisors$: Observable<Supervisor[]>;
 
   public readonly form: FormGroup;
 
@@ -58,7 +60,7 @@ export class FormEmployeeComponent {
 
   public onSubmit(): void {
     if (this.form.valid) {
-      this.save.emit(new Employee(this.form.value));
+      this.save.emit(this.form.value);
       this.form.reset();
     }
   }

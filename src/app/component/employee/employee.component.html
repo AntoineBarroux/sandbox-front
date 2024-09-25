@@ -17,7 +17,7 @@
 </div>
 
 <div class="actions">
-  <button>
+  <button (click)="this.edit.emit();">
     <fa-icon [icon]="faEdit"></fa-icon> Edit
   </button>
   <button (click)="deleteEmployee()">

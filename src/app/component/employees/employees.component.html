@@ -8,7 +8,7 @@
 @if(employees?.length) {
   <div class="employees">
     @for(employee of employees; track employee.id) {
-      <app-employee [employee]="employee"></app-employee>
+      <app-employee [employee]="employee" (edit)="editEmployee(employee)"></app-employee>
     }
   </div>
 
@@ -33,5 +33,5 @@
 }
 
 <p-dialog header="Create Employee" [modal]="true" [(visible)]="dialogVisible" [style]="{ width: '35rem' }" [closable]="false">
-  <app-form-employee (save)="addEmployee($event)" (cancel)="closeDialog()"></app-form-employee>
+  <app-form-employee [employee]="employeeToEdit" (save)="saveEmployee($event)" (cancel)="closeDialog()"></app-form-employee>
 </p-dialog>

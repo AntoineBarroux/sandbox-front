@@ -7,4 +7,8 @@ export class Supervisor {
     // noinspection TypeScriptValidateTypes
     Object.assign(this, data);
   }
+
+  public get fullName(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
 }

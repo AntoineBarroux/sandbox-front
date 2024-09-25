@@ -4,6 +4,8 @@ import {catchError, map, Observable, of} from 'rxjs';
 import {Employee} from '../model/employee.model';
 import {Page} from '../model/page.model';
 import {Pagination} from '../model/pagination.model';
+import {CreateEmployeeRequest} from './request/create-employee.request';
+import {UpdateEmployeeRequest} from './request/update-employee.request';
 
 @Injectable()
 export class EmployeeClient {
@@ -30,8 +32,20 @@ export class EmployeeClient {
     );
   }
 
-  public create(employee: Employee): Observable<Employee> {
-    return this.httpClient.post<Employee>('http://localhost:8050/employee', employee).pipe(
+  public create(createEmployeeRequest: CreateEmployeeRequest): Observable<Employee> {
+    return this.httpClient.post<Employee>('http://localhost:8050/employee', createEmployeeRequest).pipe(
+      map((data: any) => new Employee({
+        ...data,
+      })),
+      catchError((_: any) => {
+        return of(new Employee({}));
+      })
+    );
+  }
+
+  public update(updateEmployeeRequest: UpdateEmployeeRequest): Observable<Employee> {
+    console.log('put', updateEmployeeRequest);
+    return this.httpClient.put<Employee>(`http://localhost:8050/employee/${updateEmployeeRequest.id}`, updateEmployeeRequest).pipe(
       map((data: any) => new Employee({
         ...data,
       })),

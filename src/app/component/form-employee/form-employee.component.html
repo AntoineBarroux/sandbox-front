@@ -32,11 +32,11 @@
       [style]="{'width': '100%', 'padding': '0.5rem', 'border': '1px solid var(--grey-200)', 'border-radius': '0.25rem'}"
       [appendTo]="'body'"
       placeholder="Select a supervisor">
-      <ng-template let-employee pTemplate="item">
-        {{employee.fullName}}
+      <ng-template let-supervisor pTemplate="item">
+        {{supervisor.fullName}}
       </ng-template>
-      <ng-template let-employee pTemplate="selectedItem">
-        {{employee.fullName}}
+      <ng-template let-supervisor pTemplate="selectedItem">
+        {{supervisor.fullName}}
       </ng-template>
     </p-dropdown>
   </div>

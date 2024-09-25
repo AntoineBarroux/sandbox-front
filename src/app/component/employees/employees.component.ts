@@ -14,6 +14,7 @@ import {Pagination} from '../../model/pagination.model';
 import {EmployeeService} from '../../service/employee.service';
 import {PaginationService} from '../../service/pagination.service';
 import {EmployeeComponent} from '../employee/employee.component';
+import {EmployeeForm} from '../form-employee/employee.form';
 import {FormEmployeeComponent} from '../form-employee/form-employee.component';
 
 @Component({
@@ -38,6 +39,7 @@ export class EmployeesComponent {
   public readonly employees$: Observable<Employee[]>;
   public readonly currentPagination$: Observable<Pagination>;
   public readonly totalNumberOfElements$: Observable<number>;
+  public employeeToEdit: Employee;
   dialogVisible: boolean = false;
 
   public constructor(private readonly router: Router,
@@ -68,6 +70,7 @@ export class EmployeesComponent {
   }
 
   public closeDialog(): void {
+    this.employeeToEdit = null;
     this.dialogVisible = false;
   }
 
@@ -75,10 +78,28 @@ export class EmployeesComponent {
     this.dialogVisible = true;
   }
 
-  public addEmployee(employee: Employee) {
-    console.log('add employee',employee);
+  public editEmployee(employee: Employee) {
+    this.employeeToEdit = employee;
+    this.dialogVisible = true;
+  }
+
+  public saveEmployee(employee: EmployeeForm) {
+    if (this.employeeToEdit) {
+      this.updateEmployee(employee);
+    } else {
+      this.addEmployee(employee);
+    }
+  }
+
+  private updateEmployee(employee: EmployeeForm) {
+    this.employeeService.updateEmployee(employee).subscribe(() => {
+      this.closeDialog();
+    });
+  }
+
+  private addEmployee(employee: EmployeeForm) {
     this.employeeService.createEmployee(employee).subscribe(() => {
-      this.dialogVisible = false;
+      this.closeDialog();
     });
   }
 }
