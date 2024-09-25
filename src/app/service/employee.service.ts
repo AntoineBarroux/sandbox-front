@@ -29,6 +29,10 @@ export class EmployeeService {
     return this.totalNumberOfElements$;
   }
 
+  public getEmployeeReload(): Observable<void> {
+    return this.employeeReload$;
+  }
+
   public deleteEmployee(employeeId: string): Observable<void> {
     return this.employeeClient.delete(employeeId).pipe(
       tap(() => this.employeeReload$.next())
