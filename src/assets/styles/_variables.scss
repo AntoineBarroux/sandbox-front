@@ -1,0 +1,15 @@
+$primaryColor: #be1a19 !default;
+$primaryColorDarker: #951110 !default;
+$textWhite: #ffffff !default;
+$grey-100: #f3f4f6 !default;
+$grey-200: #d6d6d8 !default;
+$grey-900: #5d5d5e !default;
+
+:root {
+  --primary: #{$primaryColor};
+  --primary-darker: #{$primaryColorDarker};
+  --white: #{$textWhite};
+  --grey-100: #{$grey-100};
+  --grey-200: #{$grey-200};
+  --grey-900: #{$grey-900};
+}

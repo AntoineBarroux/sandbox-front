@@ -1,0 +1,22 @@
+<header>
+  <h1>Your employees</h1>
+  <button><fa-icon [icon]="faPlus"></fa-icon></button>
+</header>
+
+<div class="employees">
+  <app-employee></app-employee>
+
+  <p-paginator
+    [style]="{'background':'var(--grey-100)'}"
+    [first]="0"
+    [rows]="10"
+    [totalRecords]="20" />
+</div>
+
+<div class="no-employees">
+  <img src="/assets/images/no-content.png" alt="no content" />
+  <h2>No employees found</h2>
+  <p>There is no employees yet.</p>
+  <button><fa-icon [icon]="faPlus"></fa-icon> Add a new employee</button>
+</div>
+

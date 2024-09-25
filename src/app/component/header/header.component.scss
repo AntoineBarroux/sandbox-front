@@ -1,0 +1,36 @@
+nav {
+  padding: 0 2rem;
+  display: flex;
+  flex-direction:row;
+  align-items: center;
+  min-height: 5rem;
+  background-color: var(--primary);
+
+  #logo {
+    img {
+      max-width: 6rem;
+    }
+  }
+
+  ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+
+    li {
+      padding-right: 1rem;
+
+      a {
+        color: var(--white);
+        text-decoration: none;
+        padding: 1rem;
+        cursor: pointer;
+
+        &.active, &:hover {
+          background-color: var(--primary-darker);
+          border-radius: 0.5rem;
+        }
+      }
+    }
+  }
+}
