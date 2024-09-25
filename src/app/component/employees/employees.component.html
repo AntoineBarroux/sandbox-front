@@ -1,6 +1,6 @@
 <header>
   <h1>Your employees</h1>
-  <button><fa-icon [icon]="faPlus"></fa-icon></button>
+  <button (click)="createEmployee()"><fa-icon [icon]="faPlus"></fa-icon></button>
 </header>
 
 @let employees = employees$ | async;
@@ -28,7 +28,10 @@
     <img src="/assets/images/no-content.png" alt="no content" />
     <h2>No employees found</h2>
     <p>There is no employees yet.</p>
-    <button><fa-icon [icon]="faPlus"></fa-icon> Add a new employee</button>
+    <button (click)="createEmployee()"><fa-icon [icon]="faPlus"></fa-icon> Add a new employee</button>
   </div>
 }
 
+<p-dialog header="Create Employee" [modal]="true" [(visible)]="dialogVisible" [style]="{ width: '35rem' }" [closable]="false">
+  <app-form-employee (save)="addEmployee($event)" (cancel)="closeDialog()"></app-form-employee>
+</p-dialog>

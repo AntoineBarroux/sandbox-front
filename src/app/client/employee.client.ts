@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {catchError, Observable, of} from 'rxjs';
+import {catchError, map, Observable, of} from 'rxjs';
 import {Employee} from '../model/employee.model';
 import {Page} from '../model/page.model';
 import {Pagination} from '../model/pagination.model';
@@ -12,8 +12,12 @@ export class EmployeeClient {
 
   public findAll(pagination: Pagination): Observable<Page<Employee>> {
     return this.httpClient.get<Page<Employee>>(`http://localhost:8050/employee?page=${pagination.page}&size=${pagination.size}`).pipe(
+      map((data: any) => new Page<Employee>({
+        ...data,
+        content: data.content.map((employee: any) => new Employee(employee)),
+      })),
       catchError((_: any) => {
-        return of(new Page<Employee>());
+        return of(new Page<Employee>({}));
       })
     );
   }

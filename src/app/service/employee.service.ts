@@ -10,8 +10,8 @@ import {PaginationService} from './pagination.service';
 export class EmployeeService {
 
   private readonly employees$: Observable<Employee[]>;
-  public readonly totalNumberOfElements$: BehaviorSubject<number> = new BehaviorSubject(0);
-  public readonly employeeDeleted$: Subject<void> = new BehaviorSubject(null);
+  private readonly totalNumberOfElements$: BehaviorSubject<number> = new BehaviorSubject(0);
+  private readonly employeeDeleted$: Subject<void> = new BehaviorSubject(null);
 
   public constructor(paginationService: PaginationService, private readonly employeeClient: EmployeeClient) {
     this.employees$ = combineLatest([paginationService.getCurrentPagination(), this.employeeDeleted$]).pipe(

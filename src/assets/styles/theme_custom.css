@@ -2097,8 +2097,8 @@
 
   .p-button {
     color: #ffffff;
-    background: #1174c0;
-    border: 1px solid #1174c0;
+    background: #be1a19;
+    border: 1px solid #be1a19;
     padding: 0.25rem 0.5rem;
     font-size: 1rem;
     transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
@@ -2106,19 +2106,20 @@
     outline-color: transparent;
   }
   .p-button:not(:disabled):hover {
-    background: #0f68ad;
+    background: #951110;
     color: #ffffff;
-    border-color: #0f68ad;
+    border-color: #951110;
   }
   .p-button:not(:disabled):active {
-    background: #0e5d9a;
+    background: #be1a19;
     color: #ffffff;
-    border-color: #0e5d9a;
+    border-color: #be1a19;
+
   }
   .p-button.p-button-outlined {
-    background-color: transparent;
+    background: #be1a19;
     color: #1174c0;
-    border: 1px solid;
+    border-color: #be1a19;
   }
   .p-button.p-button-outlined:not(:disabled):hover {
     background: rgba(17, 116, 192, 0.04);
@@ -2254,9 +2255,9 @@
     border: 1px solid #697077;
   }
   .p-button.p-button-secondary:not(:disabled):hover, .p-button-group.p-button-secondary > .p-button:not(:disabled):hover, .p-splitbutton.p-button-secondary > .p-button:not(:disabled):hover {
-    background: #5f656b;
+    background: var(--gray-200);
     color: #ffffff;
-    border-color: #5f656b;
+    border-color: var(--gray-200);
   }
   .p-button.p-button-secondary:not(:disabled):focus, .p-button-group.p-button-secondary > .p-button:not(:disabled):focus, .p-splitbutton.p-button-secondary > .p-button:not(:disabled):focus {
     box-shadow: 0 0 0 0.2rem #c2c6c9;

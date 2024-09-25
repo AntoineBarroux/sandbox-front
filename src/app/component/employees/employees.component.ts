@@ -1,10 +1,11 @@
-import {AsyncPipe, JsonPipe} from '@angular/common';
-import {HttpClientModule} from '@angular/common/http';
+import {AsyncPipe} from '@angular/common';
 import {Component, DestroyRef, inject} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faPlus} from '@fortawesome/free-solid-svg-icons';
+import {Button} from 'primeng/button';
+import {DialogModule} from 'primeng/dialog';
 import {PaginatorModule} from 'primeng/paginator';
 import {filter, map, Observable} from 'rxjs';
 import {EmployeeClient} from '../../client/employee.client';
@@ -13,6 +14,7 @@ import {Pagination} from '../../model/pagination.model';
 import {EmployeeService} from '../../service/employee.service';
 import {PaginationService} from '../../service/pagination.service';
 import {EmployeeComponent} from '../employee/employee.component';
+import {FormEmployeeComponent} from '../form-employee/form-employee.component';
 
 @Component({
   selector: 'app-employees',
@@ -22,8 +24,9 @@ import {EmployeeComponent} from '../employee/employee.component';
     FaIconComponent,
     PaginatorModule,
     AsyncPipe,
-    HttpClientModule,
-    JsonPipe,
+    Button,
+    DialogModule,
+    FormEmployeeComponent
   ],
   providers: [EmployeeService, PaginationService, EmployeeClient],
   templateUrl: './employees.component.html',
@@ -35,6 +38,7 @@ export class EmployeesComponent {
   public readonly employees$: Observable<Employee[]>;
   public readonly currentPagination$: Observable<Pagination>;
   public readonly totalNumberOfElements$: Observable<number>;
+  dialogVisible: boolean = false;
 
   public constructor(private readonly router: Router,
                      employeeService: EmployeeService,
@@ -63,4 +67,15 @@ export class EmployeesComponent {
     });
   }
 
+  public closeDialog(): void {
+    this.dialogVisible = false;
+  }
+
+  public createEmployee(): void {
+    this.dialogVisible = true;
+  }
+
+  public addEmployee(employee: Employee) {
+    console.log('add employee',employee);
+  }
 }

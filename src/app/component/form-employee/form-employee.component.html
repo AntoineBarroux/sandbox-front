@@ -1,0 +1,48 @@
+<h4>Fields marked with an * are required</h4>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+  <div>
+    <label for="firstName">First name*</label>
+    <input pInputText id="firstName" autocomplete="off" formControlName="firstName" />
+    @if(form.get('firstName')?.invalid && form.get('firstName')?.dirty) {
+      <small>First name is required</small>
+    }
+  </div>
+  <div>
+    <label for="lastName">Last name*</label>
+    <input pInputText id="lastName" autocomplete="off" formControlName="lastName"/>
+    @if(form.get('lastName')?.invalid && form.get('lastName')?.dirty) {
+      <small>Last name is required</small>
+    }
+  </div>
+  <div>
+    <label for="lastName">Position*</label>
+    <input pInputText id="position" autocomplete="off" formControlName="position" />
+    @if(form.get('position')?.invalid && form.get('position')?.dirty) {
+      <small>Position is required</small>
+    }
+  </div>
+  <div>
+    <label for="supervisor">Supervisor</label>
+    <p-dropdown
+      id="supervisor"
+      formControlName="supervisor"
+      [options]="supervisors$ | async"
+      optionValue="id"
+      [style]="{'width': '100%', 'padding': '0.5rem', 'border': '1px solid var(--grey-200)', 'border-radius': '0.25rem'}"
+      [appendTo]="'body'"
+      placeholder="Select a supervisor">
+      <ng-template let-employee pTemplate="item">
+        {{employee.fullName}}
+      </ng-template>
+      <ng-template let-employee pTemplate="selectedItem">
+        {{employee.fullName}}
+      </ng-template>
+    </p-dropdown>
+  </div>
+
+  <div class="buttons">
+    <p-button severity="secondary" label="Cancel" (onClick)="onCancel()" />
+    <p-button severity="primary" type="submit" label="Save" [disabled]="form.invalid" />
+  </div>
+</form>
