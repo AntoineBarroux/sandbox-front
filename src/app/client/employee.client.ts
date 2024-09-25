@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable} from '@angular/core';
-import {catchError, map, Observable, of} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {Employee} from '../model/employee.model';
 import {Page} from '../model/page.model';
 import {Pagination} from '../model/pagination.model';
@@ -17,41 +17,27 @@ export class EmployeeClient {
       map((data: any) => new Page<Employee>({
         ...data,
         content: data.content.map((employee: any) => new Employee(employee)),
-      })),
-      catchError((_: any) => {
-        return of(new Page<Employee>({}));
-      })
+      }))
     );
   }
 
   public delete(employeeId: string): Observable<void> {
-    return this.httpClient.delete<void>(`http://localhost:8050/employee/${employeeId}`).pipe(
-      catchError((_: any) => {
-        return of();
-      })
-    );
+    return this.httpClient.delete<void>(`http://localhost:8050/employee/${employeeId}`);
   }
 
   public create(createEmployeeRequest: CreateEmployeeRequest): Observable<Employee> {
     return this.httpClient.post<Employee>('http://localhost:8050/employee', createEmployeeRequest).pipe(
       map((data: any) => new Employee({
         ...data,
-      })),
-      catchError((_: any) => {
-        return of(new Employee({}));
-      })
+      }))
     );
   }
 
   public update(updateEmployeeRequest: UpdateEmployeeRequest): Observable<Employee> {
-    console.log('put', updateEmployeeRequest);
     return this.httpClient.put<Employee>(`http://localhost:8050/employee/${updateEmployeeRequest.id}`, updateEmployeeRequest).pipe(
       map((data: any) => new Employee({
         ...data,
-      })),
-      catchError((_: any) => {
-        return of(new Employee({}));
-      })
+      }))
     );
   }
 }

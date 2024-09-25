@@ -1,5 +1,5 @@
 import {AsyncPipe, JsonPipe} from '@angular/common';
-import {Component, effect, EventEmitter, input, Output} from '@angular/core';
+import {Component, effect, EventEmitter, input, Output, Signal} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Button} from 'primeng/button';
 import {DropdownModule} from 'primeng/dropdown';
@@ -33,7 +33,7 @@ export class FormEmployeeComponent {
   @Output()
   public readonly save: EventEmitter<EmployeeForm> = new EventEmitter<EmployeeForm>();
 
-  public readonly employee = input<Employee>();
+  public readonly employee: Signal<Employee> = input<Employee>();
 
   public readonly supervisors$: Observable<Supervisor[]>;
 
@@ -45,8 +45,16 @@ export class FormEmployeeComponent {
 
     effect(() => {
       if (this.employee()) {
-        this.form.patchValue(this.employee());
+        this.form.patchValue({
+          id: this.employee().id,
+          firstName: this.employee().firstName,
+          lastName: this.employee().lastName,
+          position: this.employee().position,
+          supervisor: this.employee().supervisor?.id ?? ''
+        });
       }
+    }, {
+      allowSignalWrites: true
     });
 
     this.form = formBuilder.group({

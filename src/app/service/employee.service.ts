@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, combineLatest, map, Observable, Subject, switchMap, tap} from 'rxjs';
+import {MessageService} from 'primeng/api';
+import {BehaviorSubject, catchError, combineLatest, map, Observable, of, Subject, switchMap, tap} from 'rxjs';
 import {EmployeeClient} from '../client/employee.client';
 import {CreateEmployeeRequest} from '../client/request/create-employee.request';
 import {UpdateEmployeeRequest} from '../client/request/update-employee.request';
@@ -16,7 +17,7 @@ export class EmployeeService {
   private readonly totalNumberOfElements$: BehaviorSubject<number> = new BehaviorSubject(0);
   private readonly employeeReload$: Subject<void> = new BehaviorSubject(null);
 
-  public constructor(paginationService: PaginationService, private readonly employeeClient: EmployeeClient) {
+  public constructor(paginationService: PaginationService, private readonly employeeClient: EmployeeClient, private readonly messageService: MessageService) {
     this.employees$ = combineLatest([paginationService.getCurrentPagination(), this.employeeReload$]).pipe(
       switchMap(([pagination, _]: [Pagination, any]) => employeeClient.findAll(pagination)),
       tap((pagedEmployees: Page<Employee>) => this.totalNumberOfElements$.next(pagedEmployees.totalElements)),
@@ -38,6 +39,16 @@ export class EmployeeService {
 
   public deleteEmployee(employeeId: string): Observable<void> {
     return this.employeeClient.delete(employeeId).pipe(
+      tap(() => this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: `Employee successfully deleted !`,
+        life: 3000
+      })),
+      catchError((error: any) => {
+        this.messageService.add({severity: 'error', summary: 'An error occured...', detail: error.error.detail, life: 3000});
+        return of(error);
+      }),
       tap(() => this.employeeReload$.next())
     );
   }
@@ -49,6 +60,16 @@ export class EmployeeService {
       lastName: employee.lastName,
       position: employee.position
     })).pipe(
+      tap(() => this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: `The employee ${employee.firstName} ${employee.lastName} was successfully created !`,
+        life: 3000
+      })),
+      catchError((error: any) => {
+        this.messageService.add({severity: 'error', summary: 'An error occured...', detail: error.error.detail, life: 3000});
+        return of(error);
+      }),
       tap(() => this.employeeReload$.next())
     );
   }
@@ -61,6 +82,16 @@ export class EmployeeService {
       lastName: employee.lastName,
       position: employee.position
     })).pipe(
+      tap(() => this.messageService.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: `The employee ${employee.firstName} ${employee.lastName} was successfully updated !`,
+        life: 3000
+      })),
+      catchError((error: any) => {
+        this.messageService.add({severity: 'error', summary: 'An error occured...', detail: error.error.detail, life: 3000});
+        return of(error);
+      }),
       tap(() => this.employeeReload$.next())
     );
   }
