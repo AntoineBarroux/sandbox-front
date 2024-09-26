@@ -975,13 +975,13 @@
     border-radius: 1px;
   }
   .p-dropdown:not(.p-disabled):hover {
-    border-color: #1174c0;
+    border-color: #be1a19;
   }
   .p-dropdown:not(.p-disabled).p-focus {
     outline: 0 none;
     outline-offset: 0;
-    box-shadow: 0 0 0 0.2rem #90c9f5;
-    border-color: #1174c0;
+    box-shadow: 0 0 0 0.2rem rgba(190, 26, 25, 0.22);
+    border-color: #be1a19;
   }
   .p-dropdown.p-dropdown-clearable .p-dropdown-label {
     padding-right: 1.25rem;
@@ -3297,6 +3297,8 @@
     margin-left: 0.5rem;
     margin-right: 0.5rem;
     height: 2.357rem;
+    display: flex;
+    align-items: center;
   }
   .p-paginator .p-dropdown .p-dropdown-label {
     padding-right: 0;

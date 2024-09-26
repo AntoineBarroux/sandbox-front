@@ -21,12 +21,17 @@
     @let pagination = currentPagination$ | async;
     @let totalNumberOfElements = totalNumberOfElements$ | async;
 
-    <p-paginator
-      (onPageChange)="currentPageChanged($event)"
-      [style]="{'background':'var(--grey-100)'}"
-      [first]="0"
-      [rows]="pagination.size"
-      [totalRecords]="totalNumberOfElements" />
+    <div class="pagination">
+      <p-paginator
+        (onPageChange)="currentPageChanged($event)"
+        [style]="{'background':'var(--grey-100)'}"
+        [first]="0"
+        [rows]="pagination.size"
+        [showCurrentPageReport]="true"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        currentPageReportTemplate="{first} - {last} of {totalRecords}"
+        [totalRecords]="totalNumberOfElements" />
+    </div>
   }
 
   @else {
