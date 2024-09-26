@@ -1,4 +1,4 @@
-import {JsonPipe} from '@angular/common';
+import {DatePipe, JsonPipe} from '@angular/common';
 import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
 import {FaIconComponent} from '@fortawesome/angular-fontawesome';
 import {faEdit, faTrash} from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,8 @@ import {EmployeeService} from '../../service/employee.service';
   standalone: true,
   imports: [
     FaIconComponent,
-    JsonPipe
+    JsonPipe,
+    DatePipe
   ],
   templateUrl: './employee.component.html',
   styleUrl: './employee.component.scss'

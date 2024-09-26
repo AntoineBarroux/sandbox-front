@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {MessageService} from 'primeng/api';
-import {BehaviorSubject, catchError, combineLatest, map, Observable, of, Subject, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, catchError, combineLatest, delay, map, Observable, of, Subject, switchMap, tap} from 'rxjs';
 import {EmployeeClient} from '../client/employee.client';
 import {CreateEmployeeRequest} from '../client/request/create-employee.request';
 import {UpdateEmployeeRequest} from '../client/request/update-employee.request';
@@ -16,12 +16,16 @@ export class EmployeeService {
   private readonly employees$: Observable<Employee[]>;
   private readonly totalNumberOfElements$: BehaviorSubject<number> = new BehaviorSubject(0);
   private readonly employeeReload$: Subject<void> = new BehaviorSubject(null);
+  private readonly isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   public constructor(paginationService: PaginationService, private readonly employeeClient: EmployeeClient, private readonly messageService: MessageService) {
     this.employees$ = combineLatest([paginationService.getCurrentPagination(), this.employeeReload$]).pipe(
+      delay(0),
+      tap(() => this.isLoading$.next(true)),
       switchMap(([pagination, _]: [Pagination, any]) => employeeClient.findAll(pagination)),
+      tap((_: Page<Employee>) => this.isLoading$.next(false)),
       tap((pagedEmployees: Page<Employee>) => this.totalNumberOfElements$.next(pagedEmployees.totalElements)),
-      map((pagedEmployees: Page<Employee>) => pagedEmployees.content)
+      map((pagedEmployees: Page<Employee>) => pagedEmployees.content),
     );
   }
 
@@ -35,6 +39,10 @@ export class EmployeeService {
 
   public getEmployeeReload(): Observable<void> {
     return this.employeeReload$;
+  }
+
+  public getIsLoading(): Observable<boolean> {
+    return this.isLoading$;
   }
 
   public deleteEmployee(employeeId: string): Observable<void> {

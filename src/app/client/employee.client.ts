@@ -16,7 +16,10 @@ export class EmployeeClient {
     return this.httpClient.get<Page<Employee>>(`http://localhost:8050/employee?page=${pagination.page}&size=${pagination.size}`).pipe(
       map((data: any) => new Page<Employee>({
         ...data,
-        content: data.content.map((employee: any) => new Employee(employee)),
+        content: data.content.map((employee: any) => new Employee({
+          ...employee,
+          createdAt: new Date(employee.createdAt * 1000),
+        })),
       }))
     );
   }

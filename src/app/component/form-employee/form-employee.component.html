@@ -26,6 +26,7 @@
     <label for="supervisor">Supervisor</label>
     <p-dropdown
       id="supervisor"
+      [showClear]="true"
       formControlName="supervisor"
       [options]="supervisors$ | async"
       optionValue="id"

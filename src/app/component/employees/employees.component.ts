@@ -7,6 +7,7 @@ import {faPlus} from '@fortawesome/free-solid-svg-icons';
 import {Button} from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
 import {PaginatorModule} from 'primeng/paginator';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {filter, map, Observable} from 'rxjs';
 import {EmployeeClient} from '../../client/employee.client';
 import {Employee} from '../../model/employee.model';
@@ -27,7 +28,8 @@ import {FormEmployeeComponent} from '../form-employee/form-employee.component';
     AsyncPipe,
     Button,
     DialogModule,
-    FormEmployeeComponent
+    FormEmployeeComponent,
+    ProgressSpinnerModule
   ],
   providers: [EmployeeService, PaginationService, EmployeeClient],
   templateUrl: './employees.component.html',
@@ -39,6 +41,7 @@ export class EmployeesComponent {
   public readonly employees$: Observable<Employee[]>;
   public readonly currentPagination$: Observable<Pagination>;
   public readonly totalNumberOfElements$: Observable<number>;
+  public readonly isLoading$: Observable<boolean>;
   public employeeToEdit: Employee;
   dialogVisible: boolean = false;
 
@@ -49,6 +52,7 @@ export class EmployeesComponent {
     this.employees$ = employeeService.getEmployees();
     this.currentPagination$ = paginationService.getCurrentPagination();
     this.totalNumberOfElements$ = employeeService.getTotalNumberOfElements();
+    this.isLoading$ = this.employeeService.getIsLoading();
 
     activatedRoute.queryParams.pipe(
       takeUntilDestroyed(inject(DestroyRef)),

@@ -33,6 +33,7 @@
     dl {
       display: flex;
       flex-direction: column;
+      gap: .5rem;
 
       div {
         display: flex;
@@ -41,6 +42,11 @@
 
         dt {
           font-weight: bold;
+          min-width: 35%;
+        }
+
+        dd {
+          text-align: right;
         }
       }
     }
