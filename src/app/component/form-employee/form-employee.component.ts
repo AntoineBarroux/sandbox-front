@@ -40,7 +40,7 @@ export class FormEmployeeComponent {
   public readonly form: FormGroup;
 
   public constructor(supervisorService: SupervisorService,
-                     formBuilder: FormBuilder,) {
+                     formBuilder: FormBuilder) {
     this.supervisors$ = supervisorService.getSupervisors$();
 
     effect(() => {

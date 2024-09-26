@@ -82,11 +82,6 @@ export class EmployeesComponent {
     this.dialogVisible = true;
   }
 
-  public editEmployee(employee: Employee) {
-    this.employeeToEdit = employee;
-    this.dialogVisible = true;
-  }
-
   public saveEmployee(employee: EmployeeForm) {
     if (this.employeeToEdit) {
       this.updateEmployee(employee);
